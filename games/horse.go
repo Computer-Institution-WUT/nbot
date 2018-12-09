@@ -64,10 +64,8 @@ func (g *Game) GetGameDescribe() string {
 		}
 	}
 	a := ""
-	for k, v := range g.horses {
-		if k != 1 {
-			a += strings.Repeat("=", sideLength)
-		}
+	for _, v := range g.horses {
+		a += strings.Repeat("-", sideLength)
 		leadRange := (v.position - minPosition)
 		if leadRange >= laneLength {
 			leadRange = laneLength
@@ -80,7 +78,7 @@ func (g *Game) GetGameDescribe() string {
 			a += fmt.Sprintf("\n" + strings.Repeat(" ", leadRange) + "☠️\n")
 		}
 	}
-	// a += strings.Repeat("=", 20)
+	a += strings.Repeat("-", 20)
 	a += "\n"
 	return fmt.Sprintf("%v", a)
 }
@@ -110,7 +108,7 @@ func (g *Game) Run() string {
 func (g *Game) FinishGame() string {
 	if g.gameOn {
 		g.gameOn = false
-		for i := 1; i < 6; i++ {
+		for i := 1; i < 5; i++ {
 			g.horses[i].position = 0
 			g.horses[i].alive = true
 			g.horses[i].buff = 0
