@@ -47,7 +47,7 @@ func (g *Game) GetGameStatus() bool {
 }
 
 func (g *Game) initGame() {
-	g.finishLine = 1000
+	g.finishLine = 1500
 	g.winner = 0
 	if g.horses == nil {
 		fmt.Println("Initializing horse...")
@@ -170,21 +170,21 @@ func (h *Horse) applyEvent() string {
 
 	deathDice := getRandom(0, 100)
 	buffDice := getRandom(0, 100)
-	if h.alive && deathDice < 2 {
+	if h.alive && deathDice < 5 {
 		h.alive = false
 		return "death"
 	}
-	if !h.alive && deathDice < 1 {
+	if !h.alive && deathDice < 30 {
 		h.alive = true
 		h.position += 300
 		return "revive"
 	}
 	if h.alive && h.buff == 1.0 {
 		switch {
-		case buffDice < 4:
+		case buffDice < 10:
 			h.buff = 2.2
 			ret += "buff2"
-		case buffDice < 6:
+		case buffDice < 15:
 			h.buff = 1.4
 			ret += "buff"
 		}

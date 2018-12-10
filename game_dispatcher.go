@@ -91,6 +91,7 @@ func main() {
 	e.GET("/run", performRun)
 	e.GET("/start", startGame)
 	e.POST("/bet", placeBet)
+	e.POST("/cheat", cheat)
 	e.GET("/clearbet", clearBet)
 	e.GET("/rank", getRank)
 	e.Logger.Fatal(e.Start("127.0.0.1:1323"))
@@ -129,6 +130,19 @@ func clearBet(c echo.Context) error {
 		bet.t.clearBet()
 	}
 	return c.String(http.StatusOK, "")
+}
+
+func cheat(c echo.Context) error {
+	bet.mux.Lock()
+	defer bet.mux.Unlock()
+	user := c.FormValue("user")
+	amount := c.FormValue("amount")
+	amountInt, err := strconv.Atoi(amount)
+	if err != nil {
+		return err
+	}
+	bet.t.changeScore(user, amountInt)
+	return c.String(http.StatusOK, fmt.Sprintf("Add %v to %v", amountInt, user))
 }
 
 func getRank(c echo.Context) error {
